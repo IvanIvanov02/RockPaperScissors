@@ -29,6 +29,7 @@ public class RockPaperScissors {
                 chooseOption = Scissors;
             } else {
                 System.out.print("invalid input,try again -->");
+                System.out.print("Choose between rock, paper and scissors --> ");
                 chooseOption = scanner.nextLine();
             }
 
