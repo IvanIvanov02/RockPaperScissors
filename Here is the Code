@@ -1,3 +1,4 @@
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -6,61 +7,94 @@ public class RockPaperScissors {
         Scanner scanner = new Scanner(System.in);
 
         String computerMove = "";
-
+        boolean moreThanOneGame = false;
+        System.out.print("Choose between rock, paper and scissors --> ");
+        int countConsoleVictories = 0;
+        int playerVictories = 0;
 
         String chooseOption = scanner.nextLine();
-        System.out.print("Choose between rock, paper and scissors: ");
-        if ( chooseOption.equals("r") || chooseOption.equals("Rock")) {
-            chooseOption = Rock;
-        } else if ( ( chooseOption.equals("p") || chooseOption.equals("Paper"))) {
-            chooseOption = Paper;
-        } else if ( ( chooseOption.equals("s") || chooseOption.equals("Scissors"))) {
-            chooseOption = Scissors;
-        } else {
-            System.out.println("invalid input,try again..");
+
+        while ( true )   {
+
+            if ( moreThanOneGame ) {
+                System.out.print("Choose between rock, paper and scissors -- > ");
+                chooseOption = scanner.nextLine();
+            }
+
+            if ( chooseOption.equals("r") || chooseOption.equals("Rock")) {
+                chooseOption = Rock;
+            } else if ( ( chooseOption.equals("p") || chooseOption.equals("Paper"))) {
+                chooseOption = Paper;
+            } else if ( ( chooseOption.equals("s") || chooseOption.equals("Scissors"))) {
+                chooseOption = Scissors;
+            } else {
+                System.out.print("invalid input,try again -->");
+                chooseOption = scanner.nextLine();
+            }
+
+            Random randomNumber = new Random();
+            int computerRandom = randomNumber.nextInt(3) + 1;
+            switch (computerRandom) {
+                case 1:
+                    computerMove = Rock;
+                    break;
+                case 2:
+                    computerMove = Paper;
+                    break;
+                case 3:
+                    computerMove = Scissors;
+                    break;
+            }
+
+            System.out.printf("Computer chose the %s\n",computerMove);
+
+            switch (chooseOption) {
+                case Rock:
+                    switch (computerMove) {
+                        case Rock -> System.out.println("It's draw.");
+                        case Paper -> System.out.println("You lose, Paper covers the Rock.");
+                        case Scissors -> System.out.println("You win, Rock breaks the Scissors.");
+                    }
+                    if ( computerMove.equals(Paper)) countConsoleVictories++;
+                    if ( computerMove.equals(Scissors)) playerVictories++;
+                    break;
+                case Paper:
+                    switch (computerMove) {
+                        case Paper -> System.out.println("It's draw.");
+                        case Rock -> System.out.println("You win, Paper covers the Rock.");
+                        case Scissors -> System.out.println("You lose, Scissors cuts the Paper.");
+                    }
+                    if ( computerMove.equals(Rock)) playerVictories++;
+                    if ( computerMove.equals(Scissors)) countConsoleVictories++;
+                    break;
+                case Scissors:
+                    switch (computerMove) {
+                        case Scissors -> System.out.println("It's draw.");
+                        case Rock -> System.out.println("You lose, Rock breaks the Scissors.");
+                        case Paper -> System.out.println("You win, Scissors cuts the Paper.");
+                    }
+                    if ( computerMove.equals(Rock)) countConsoleVictories++;
+                    if ( computerMove.equals(Paper)) playerVictories++;
+                    break;
+            }
+            System.out.print("Would you like to play again ? If yes, type Yes, else type No --> ");
             chooseOption = scanner.nextLine();
-        }
-
-        Random randomNumber = new Random();
-        int computerRandom = randomNumber.nextInt(3) + 1;
-        switch (computerRandom) {
-            case 1:
-                computerMove = Rock;
-                break;
-            case 2:
-                computerMove = Paper;
-                break;
-            case 3:
-                computerMove = Scissors;
-                break;
-        }
-
-        System.out.printf("Computer chose the %s\n",computerMove);
-
-        switch (chooseOption) {
-            case Rock:
-                switch (computerMove) {
-                    case Rock -> System.out.println("It's draw.");
-                    case Paper -> System.out.println("You lose, Paper covers the Rock.");
-                    case Scissors -> System.out.println("You win, Rock breaks the Scissors.");
-                }
-                break;
-            case Paper:
-                switch (computerMove) {
-                    case Paper -> System.out.println("It's draw.");
-                    case Rock -> System.out.println("You win, Paper covers the Rock.");
-                    case Scissors -> System.out.println("You lose, Scissors cuts the Paper.");
-                }
-                break;
-            case Scissors:
-                switch (computerMove) {
-                    case Scissors -> System.out.println("It's draw.");
-                    case Rock -> System.out.println("You lose, Rock breaks the Scissors.");
-                    case Paper -> System.out.println("You win, Scissors cuts the Paper.");
+            if ( chooseOption.equals("Yes")) {
+                moreThanOneGame = true;
+                System.out.println();
+                System.out.println();
+            } else {
+                if ( playerVictories > countConsoleVictories ) {
+                    System.out.printf("Good game! The result is %d > %d for you.",playerVictories,countConsoleVictories);
+                } else if ( playerVictories < countConsoleVictories ) {
+                    System.out.printf("Good game! The result is %d > %d for the PC.",countConsoleVictories,playerVictories);
+                } else {
+                    System.out.print("Good game! The result is draw");
                 }
                 break;
             }
         }
+    }
     private static final String Rock = "Rock";
     private static final String Paper = "Paper";
     private static final String Scissors = "Scissors";
